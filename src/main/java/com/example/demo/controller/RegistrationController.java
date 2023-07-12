@@ -16,13 +16,16 @@ import java.security.Principal;
 
 @Controller
 public class RegistrationController {
-    @Autowired
     private UsersService usersService;
-    @Autowired
     private UserValid userValid;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public RegistrationController(UsersService usersService, UserValid userValid, PasswordEncoder passwordEncoder) {
+        this.usersService = usersService;
+        this.userValid = userValid;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public RegistrationController(UsersService usersService) {
         this.usersService = usersService;
@@ -34,8 +37,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration")
-    public String registration(ModelMap model) {
-        model.addAttribute("user", new User());
+    public String registration(@ModelAttribute("user") User user) {
         return "/registration";
     }
 
@@ -48,11 +50,13 @@ public class RegistrationController {
         usersService.add(user);
         return "redirect:/login";
     }
+
     @GetMapping("/createAdmin")
     public String createAdmin(ModelMap model) {
         model.addAttribute("user", new User());
         return "/createAdmin";
     }
+
     @PostMapping("/createAdmin_procces")
     public String addAdmin(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         userValid.validate(user, bindingResult);

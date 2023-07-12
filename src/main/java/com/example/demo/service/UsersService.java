@@ -43,6 +43,10 @@ public class UsersService implements UserDetailsService {
                 user.getRoles() //?
         );
     }
+    @Transactional
+    public boolean yesOrNot (User user) {
+        return user == (userRepository.findByUsername(user.getUsername()));
+    }
 
     @Transactional
     public User show(Long id) {

@@ -11,12 +11,18 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 
 import java.lang.annotation.Annotation;
+import java.util.Optional;
 
 @Component
 public class UserValid implements Validator {
 
-    @Autowired
+
     private ValidService validService;
+
+    @Autowired
+    public UserValid(ValidService validService) {
+        this.validService = validService;
+    }
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -26,9 +32,7 @@ public class UserValid implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (!(validService.findByname(user.getUsername())).equals(user)) {
-
-        } else {
+        if (!validService.findByname(user)) {
             errors.rejectValue("username", "", "пользватель с таким именем существует");
         }
     }
