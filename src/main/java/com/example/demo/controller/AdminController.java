@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.Util.UserValid;
 import com.example.demo.model.User;
 import com.example.demo.service.UsersService;
 import jakarta.validation.Valid;
@@ -18,6 +19,8 @@ public class AdminController {
     private UsersService usersService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserValid userValid;
     @GetMapping("/new")
     public String newUser(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
@@ -26,6 +29,7 @@ public class AdminController {
 
     @PostMapping("/new_procces")
     public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/new";
         user.setPassword(passwordEncoder.encode(user.getPassword()));

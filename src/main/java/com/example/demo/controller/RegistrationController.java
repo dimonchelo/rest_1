@@ -55,6 +55,7 @@ public class RegistrationController {
     }
     @PostMapping("/createAdmin_procces")
     public String addAdmin(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/createAdmin";
         user.setPassword(passwordEncoder.encode(user.getPassword()));

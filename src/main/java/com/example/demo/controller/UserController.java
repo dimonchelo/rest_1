@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.Util.UserValid;
 import com.example.demo.model.User;
 import com.example.demo.service.UsersService;
 import jakarta.validation.Valid;
@@ -19,8 +20,11 @@ public class UserController {
     private UsersService usersService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserValid userValid;
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
+        userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/update";
         user.setPassword(passwordEncoder.encode(user.getPassword()));
