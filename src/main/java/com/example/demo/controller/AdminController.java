@@ -4,18 +4,20 @@ import com.example.demo.model.User;
 import com.example.demo.service.UsersService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping()
 public class AdminController {
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @GetMapping("/new")
     public String newUser(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
@@ -26,8 +28,9 @@ public class AdminController {
     public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "/new";
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersService.add(user);
-        return "redirect:/allusers";
+        return "redirect:/admin";
     }
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, ModelMap modelMap) {

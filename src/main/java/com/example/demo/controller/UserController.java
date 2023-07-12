@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.UsersService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,12 +17,15 @@ import java.security.Principal;
 public class UserController {
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors())
             return "/update";
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersService.update(user, id);
-        return "redirect:/editSolo";
+        return "redirect:/user";
     }
     @DeleteMapping("/{id}")
     public String delete(@ModelAttribute("user") User user) {
