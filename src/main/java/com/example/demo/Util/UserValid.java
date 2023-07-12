@@ -2,6 +2,7 @@ package com.example.demo.Util;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UsersService;
+import com.example.demo.service.ValidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -14,12 +15,8 @@ import java.lang.annotation.Annotation;
 @Component
 public class UserValid implements Validator {
 
-    private UsersService usersService;
-
     @Autowired
-    public UserValid(UsersService usersService) {
-        this.usersService = usersService;
-    }
+    private ValidService validService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -29,12 +26,10 @@ public class UserValid implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        try {
-            usersService.findByUsername(user.getUsername());
-        } catch (UsernameNotFoundException ignored) {
-            return;
-        }
-        errors.rejectValue("username","","пользватель с таким именем существует");
+        if (!(validService.findByname(user.getUsername())).equals(user)) {
 
+        } else {
+            errors.rejectValue("username", "", "пользватель с таким именем существует");
+        }
     }
 }

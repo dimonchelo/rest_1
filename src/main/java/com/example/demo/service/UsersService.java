@@ -23,11 +23,11 @@ public class UsersService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,27 +43,30 @@ public class UsersService implements UserDetailsService {
                 user.getRoles() //?
         );
     }
+
     @Transactional
     public User show(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElse(null);
     }
+
     @Transactional(readOnly = true)
     public List<User> listUser() {
         return userRepository.findAll();
     }
 
     @Transactional
-    public void add(User user) throws UsernameNotFoundException{
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public void add(User user) throws UsernameNotFoundException {
         user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
         userRepository.save(user);
     }
+
     @Transactional
     public void addAdmin(User user) {
         user.setRoles(List.of(roleRepository.findByName("ROLE_ADMIN").get()));
         userRepository.save(user);
     }
+
     @Transactional
     public void delete(User user) {
         userRepository.delete(user);
