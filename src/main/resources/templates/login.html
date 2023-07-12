@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>new user</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>new user</title>
 </head>
 <body>
-<div id="container">
-  <b>Please sign in</b>
-  <br>
-  <form th:action="@{/process_login}" method="post">
-    <label for="username">name</label>
-    <input type="text" id="username" name="username" />
-    <label for="password">password</label>
-    <input type="password" id="password" name="password" />
-    <input id="submit" type="submit" value="Login" />
-    <div th:if="${param.error}">error</div>
-  </form>
+<div class="text-center p-5">
+    <p class="h2 fw-bold" style="text-align: center">Please sign in</p>
+    <br>
+
+    <form th:action="@{/process_login}" method="post">
+        <div class="col">
+            <label for="username"></label>
+            <input placeholder="Username" type="text" id="username" name="username"/>
+        </div>
+        <label for="password"></label>
+        <input placeholder="Password" type="password" id="password" name="password"/>
+        <div></div>
+        <div>
+            <div class="col">
+                <button id="submit" class="btn btn-primary ">Sign in</button>
+                <div>
+                </div>
+                <div th:if="${param.error}">error</div>
+    </form>
 </div>
+<br>
 
 </body>
 </html>
