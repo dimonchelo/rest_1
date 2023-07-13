@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -40,7 +41,9 @@ public class UserController {
     @GetMapping("/user")
     public String editSolo(Principal principal , ModelMap model) {
         User user = usersService.findByUsername(principal.getName());
+        List<Role> role = user.getRoles();
         model.addAttribute("message", user );
+        model.addAttribute("roles", role);
         return "/editSolo";
     }
 

@@ -12,6 +12,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping()
 public class AdminController {
@@ -46,4 +48,9 @@ public class AdminController {
         model.addAttribute("message", usersService.listUser());
         return "/users";
     }
+//    private void getUserRoles(User user) {
+//        user.setRoles(user.getRoles().stream()
+//                .map(role -> roleService.getRole(role.getUserRole()))
+//                .collect(Collectors.toSet()));
+//    }
 }
