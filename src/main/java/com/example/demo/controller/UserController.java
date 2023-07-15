@@ -26,16 +26,16 @@ public class UserController {
         this.userValid = userValid;
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/admin/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/update";
         usersService.update(user, id);
-        return "redirect:/user";
+        return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public String delete(@ModelAttribute("user") User user) {
         usersService.delete(user);
         return "redirect:/login";

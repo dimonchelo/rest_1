@@ -29,26 +29,26 @@ public class AdminController {
     @GetMapping("/new")
     public String newUser(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
-        return "/new";
+        return "/admin/new";
     }
 
     @PostMapping("/new_procces")
     public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
-            return "/new";
+            return "/admin/new";
         usersService.add(user);
         return "redirect:/admin";
     }
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Long id, ModelMap modelMap) {
         modelMap.addAttribute(usersService.show(id));
-        return "/update";
+        return "/admin/update";
     }
     @GetMapping()
     public String allUsers(ModelMap model) {
         model.addAttribute("message", usersService.listUser());
-        return "/users";
+        return "/admin/users";
     }
 
 }

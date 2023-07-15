@@ -21,10 +21,10 @@
         <td th:utext="${user.getPassword()}"></td>
 
     </tr>
-    <a th:href="@{/new}">Create new user</a>
+    <a th:href="@{/admin/new}">Create new user</a>
     <br>
     <div th:each="user : ${message}">
-        <a th:href="@{/{id}/edit(id=${user.getId()})}">Update or delete user</a>
+        <a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Update or delete user</a>
         <a th:utext="${user.getId()}">user</a>
         <a th:utext="${user.getUsername()}"></a>
         <a th:utext="${user.getUserLastName()}"></a>
