@@ -18,13 +18,12 @@ import java.security.Principal;
 public class RegistrationController {
     private UsersService usersService;
     private UserValid userValid;
-    private PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public RegistrationController(UsersService usersService, UserValid userValid, PasswordEncoder passwordEncoder) {
+    public RegistrationController(UsersService usersService, UserValid userValid) {
         this.usersService = usersService;
         this.userValid = userValid;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public RegistrationController(UsersService usersService) {
@@ -46,7 +45,6 @@ public class RegistrationController {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/registration";
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersService.add(user);
         return "redirect:/login";
     }
@@ -62,7 +60,6 @@ public class RegistrationController {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/createAdmin";
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersService.addAdmin(user);
         return "redirect:/login";
     }

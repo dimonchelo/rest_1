@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/admin")
 public class AdminController {
-    @Autowired
     private UsersService usersService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
     private UserValid userValid;
+    @Autowired
+    public AdminController(UsersService usersService, UserValid userValid) {
+        this.usersService = usersService;
+        this.userValid = userValid;
+    }
+
+
     @GetMapping("/new")
     public String newUser(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
@@ -34,7 +37,6 @@ public class AdminController {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/new";
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersService.add(user);
         return "redirect:/admin";
     }
@@ -48,9 +50,5 @@ public class AdminController {
         model.addAttribute("message", usersService.listUser());
         return "/users";
     }
-//    private void getUserRoles(User user) {
-//        user.setRoles(user.getRoles().stream()
-//                .map(role -> roleService.getRole(role.getUserRole()))
-//                .collect(Collectors.toSet()));
-//    }
+
 }
