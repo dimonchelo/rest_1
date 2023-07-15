@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en"  >
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -16,6 +17,7 @@
         <tr th:each="role : ${roles}">
             <span class="align-middle" th:text="${role.getName()}"></span>
         </p>
+    </tr>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-dark text-secondary">Logout</button>
         </form>
@@ -25,7 +27,12 @@
     <div class="row">
 
         <div class="p-0 col-2">
-
+            <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" href="/admin" sec:authorize="hasRole('ADMIN')" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link active" href="/user" sec:authorize="(hasRole( 'USER'))" role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
+            </div>
         </div>
 
         <div class="p-0 col-10 bg-light">
@@ -44,6 +51,8 @@
                                     <th>Name</th>
                                     <th>Surname</th>
                                     <th>Roles</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -55,6 +64,14 @@
                                 <th:block th:each="role : ${roles}"
                                      th:text="${role.getName()}">
                                 </th:block>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/{id}/edit(id=${user.getId()})}">Update or delete user</a>
+                                    </td>
+                                    <td>
+                                        <form th:method="delete" th:action="@{/{id}(id=${user.getId()})}">
+                                            <input type="submit" value="delete">
+                                        </form>
                                     </td>
 
                                 </tr>

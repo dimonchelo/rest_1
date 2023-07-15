@@ -76,6 +76,7 @@ public class UsersService implements UserDetailsService {
     @Transactional
     public void addAdmin(User user) {
         user.setRoles(List.of(roleRepository.findByName("ROLE_ADMIN").get()));
+        user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

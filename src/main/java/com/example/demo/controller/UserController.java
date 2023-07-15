@@ -26,19 +26,25 @@ public class UserController {
         this.userValid = userValid;
     }
 
-    @PatchMapping("/admin/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
+
+    @PatchMapping("/{id}")
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/update";
         usersService.update(user, id);
-        return "redirect:/admin";
+        return "redirect:/login";
     }
 
-    @DeleteMapping("/admin/{id}")
-    public String delete(@ModelAttribute("user") User user) {
+    @DeleteMapping("/{id}")
+    public String deleteSUser(@ModelAttribute("user") User user) {
         usersService.delete(user);
         return "redirect:/login";
+    }
+    @GetMapping("/{id}/edit")
+    public String editUser(@PathVariable("id") Long id, ModelMap modelMap) {
+        modelMap.addAttribute(usersService.show(id));
+        return "/update";
     }
 
     @GetMapping("/user")
