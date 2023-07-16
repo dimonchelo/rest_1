@@ -16,6 +16,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
     private UsersService usersService;
     private UserValid userValid;
@@ -31,29 +32,33 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
-            return "/update";
+            return "/user/update";
         usersService.update(user, id);
-        return "redirect:/login";
+        return "redirect:/user/login";
     }
 
     @DeleteMapping("/{id}")
     public String deleteSUser(@ModelAttribute("user") User user) {
         usersService.delete(user);
-        return "redirect:/login";
+        return "redirect:/user/login";
     }
     @GetMapping("/{id}/edit")
     public String editUser(@PathVariable("id") Long id, ModelMap modelMap) {
         modelMap.addAttribute(usersService.show(id));
-        return "/update";
+        return "/user/update";
     }
 
-    @GetMapping("/user")
+    @GetMapping()
     public String editSolo(Principal principal, ModelMap model) {
         User user = usersService.findByUsername(principal.getName());
         List<Role> role = user.getRoles();
         model.addAttribute("message", user);
         model.addAttribute("roles", role);
-        return "/editSolo";
+        return "/user/editSolo";
+    }
+    @GetMapping("/login")
+    public String loginPage() {
+        return "/user/login";
     }
 
 
