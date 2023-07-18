@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.UserRepository;
@@ -65,21 +66,19 @@ public class UsersService implements UserDetailsService {
     public List<User> listUser() {
         return userRepository.findAll();
     }
+    @Transactional(readOnly = true)
+    public List<Role> listRole() {
+        return roleRepository.findAll();
+    }
 
     @Transactional
     public void add(User user) throws UsernameNotFoundException {
-        user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
+        user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-    @Transactional
-    public void addAdmin(User user) {
-        user.setRoles(List.of(roleRepository.findByName("ROLE_ADMIN").get()));
-        user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }
+
 
     @Transactional
     public void delete(User user) {
@@ -89,7 +88,7 @@ public class UsersService implements UserDetailsService {
     @Transactional
     public void update(User user, Long id) {
         user.setId(id);
-        user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
+        user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
