@@ -13,12 +13,10 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <p class="navbar-brand text-white">
-            <b><span class="align-middle" th:text="${messagesolo.username}"></span></b>
+            <b><span class="align-middle" th:text="${user.userName}"></span></b>
             <span class="align-middle">with roles:</span>
-            <tr th:each="role : ${role}">
-                <span class="align-middle" th:text="${role.getName() + ' '}"></span>
+            <span class="align-middle" th:text="${user.roles}"></span>
         </p>
-        </tr>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-dark text-secondary">Logout</button>
         </form>
@@ -29,10 +27,11 @@
 
         <div class="p-0 col-2">
             <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" href="/admin" sec:authorize="hasRole('ADMIN')" role="tab"
+                <a class="nav-link active" href="/admin" sec:authorize="hasAuthority('ADMIN')" role="tab"
                    aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                <a class="nav-link " href="/user" sec:authorize="(hasRole('USER'))" role="tab"
-                   aria-controls="v-pills-home" aria-selected="false">User</a>
+                <a class="nav-link" href="/user" sec:authorize="(hasAnyAuthority('ADMIN', 'USER'))"
+                   role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
             </div>
         </div>
         <div class="p-0 col-10 bg-light">
@@ -63,26 +62,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="user : ${message}">
-                                        <td th:text="${user.getId()}"></td>
-                                        <td th:text="${user.getUsername()}"></td>
-                                        <td th:text="${user.getUserLastName()}"></td>
-                                        <td>
-                                            <th:block th:each="role : ${user.getRoles()}"
-                                                      th:text="${role.getName()} + ' '">
-                                            </th:block>
-                                        </td>
+                                    <tr th:each="user : ${users}">
+                                        <td th:text="${user.id}"></td>
+                                        <td th:text="${user.username}"></td>
+                                        <td th:text="${user.userLastName}"></td>
+                                        <td th:text="${user.roles}">roles</td>
                                         <td>
                                             <a type="button" class="btn btn-info btn-lg text-white " th:style="white"
                                                data-bs-toggle="modal"
                                                data-bs-target="#editModal"
-                                               th:data-bs-target="${'#editModal'+user.getId()}">Edit</a>
+                                               th:data-bs-target="${'#editModal'+user.id}">Edit</a>
                                         </td>
                                         <td>
                                             <a type="button" class="btn btn-danger bg-red btn-lg text-white "
                                                th:style="white" data-bs-toggle="modal"
                                                data-bs-target="#deleteModal"
-                                               th:data-bs-target="${'#deleteModal'+user.getId()}">Delete</a>
+                                               th:data-bs-target="${'#deleteModal'+user.id}">Delete</a>
                                         </td>
                                         <div class="modal fade" th:id="${'editModal'+user.id}"
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,11 +109,9 @@
                                                             />
                                                             <br>
                                                             <label for="roles"><b>Role</b></label>
-                                                            <select multiple class="form-control form-control-sm"
-                                                                    id="roles" name="roles" size="2" required>
-                                                                <option th:each="role: ${roles}" th:value="${role.name}"
-                                                                        th:selected="${user.roles.contains(role)}">
-                                                                    <th:block th:text="${role.name}">
+                                                            <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>
+                                                                <option th:each="role: ${roles}" th:value="${role.userRole}" th:selected="${user.roles.contains(role)}">
+                                                                    <th:block th:text="${role.userRole}">
                                                                     </th:block>
                                                                 </option>
                                                             </select>

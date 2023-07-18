@@ -23,12 +23,10 @@ import java.util.Optional;
 @Service
 public class UsersService implements UserDetailsService {
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     @Autowired
-    public UsersService( UserRepository userRepository, RoleRepository roleRepository, @Lazy PasswordEncoder passwordEncoder) {
+    public UsersService( UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -39,17 +37,17 @@ public class UsersService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                user.getRoles() //?
-        );
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found");
+//        }
+//
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getUsername(),
+//                user.getPassword(),
+//                user.getRoles() //?
+//        );
     }
     @Transactional
     public boolean yesOrNot (User user) {
@@ -66,14 +64,10 @@ public class UsersService implements UserDetailsService {
     public List<User> listUser() {
         return userRepository.findAll();
     }
-    @Transactional(readOnly = true)
-    public List<Role> listRole() {
-        return roleRepository.findAll();
-    }
+
 
     @Transactional
     public void add(User user) throws UsernameNotFoundException {
-        user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -86,9 +80,8 @@ public class UsersService implements UserDetailsService {
     }
 
     @Transactional
-    public void update(User user, Long id) {
-        user.setId(id);
-        user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
+    public void update(User user) {
+        user.setId(user.getId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

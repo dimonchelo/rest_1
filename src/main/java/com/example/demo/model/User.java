@@ -1,14 +1,19 @@
 package com.example.demo.model;
 
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.core.convert.converter.Converter;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,14 +40,15 @@ public class User implements UserDetails {
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @JoinTable( name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
-    public User(Long id, String username, String password, List<Role> roles, String userLastName) {
+    public User(Long id, String username, String password, Set<Role> roles, String userLastName) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -76,11 +82,11 @@ public class User implements UserDetails {
         this.passwordConfirm = passwordConfirm;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -94,7 +100,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; // rols
+        return roles; // rols
     }
 
     @Override
@@ -132,7 +138,5 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
 }

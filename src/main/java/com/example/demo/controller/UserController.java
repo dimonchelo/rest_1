@@ -29,11 +29,11 @@ public class UserController {
 
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         userValid.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "/user/update";
-        usersService.update(user, id);
+        usersService.update(user);
         return "redirect:/user/login";
     }
 
@@ -51,9 +51,9 @@ public class UserController {
     @GetMapping()
     public String editSolo(Principal principal, ModelMap model) {
         User user = usersService.findByUsername(principal.getName());
-        List<Role> role = user.getRoles();
+//        List<Role> role = user.getRoles();
         model.addAttribute("message", user);
-        model.addAttribute("roles", role);
+//        model.addAttribute("roles", role);
         return "/user/editSolo";
     }
     @GetMapping("/login")
