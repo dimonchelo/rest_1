@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -10,6 +9,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,13 +39,13 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
-    @JoinTable( name = "users_roles",
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
 
-    public User( String username, String password, Set<Role> roles, String userLastName) {
+    public User(String username, String password, Set<Role> roles, String userLastName) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -54,6 +54,7 @@ public class User implements UserDetails {
 
     public User() {
     }
+
     public Long getId() {
         return id;
     }
@@ -64,10 +65,6 @@ public class User implements UserDetails {
 
     public String getUserName() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPasswordConfirm() {
@@ -104,11 +101,18 @@ public class User implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -129,13 +133,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
     public void addRole(Role role) {
         roles.add(role);
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
 }

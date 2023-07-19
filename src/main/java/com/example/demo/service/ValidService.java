@@ -10,13 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ValidService {
 
     private UserRepository userRepository;
+
     @Autowired
     public ValidService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Transactional
-    public boolean findByname (User user) {
-        return (userRepository.findByUsername(user.getUsername()))==null;
+    public boolean findByname(User user) {
+        return (userRepository.findByUsername(user.getUsername())) == null;
     }
 }
