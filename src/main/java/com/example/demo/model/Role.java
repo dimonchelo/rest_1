@@ -1,12 +1,8 @@
 package com.example.demo.model;
-
-import com.example.demo.model.User;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.util.HashSet;
 import java.util.Set;
-
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {

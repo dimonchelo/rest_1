@@ -1,17 +1,11 @@
 package com.example.demo.Util;
 
 import com.example.demo.model.User;
-import com.example.demo.service.UsersService;
 import com.example.demo.service.ValidService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
-
-import java.lang.annotation.Annotation;
-import java.util.Optional;
 
 @Component
 public class UserValid implements Validator {

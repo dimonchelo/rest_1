@@ -1,11 +1,8 @@
 package com.example.demo.dao;
-
-
 import com.example.demo.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
