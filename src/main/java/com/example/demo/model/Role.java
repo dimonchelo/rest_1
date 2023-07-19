@@ -4,6 +4,7 @@ import com.example.demo.model.User;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,14 +18,14 @@ public class Role implements GrantedAuthority {
     private String userRole;
     @Transient
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     public Role() {
 
     }
 
-    public Role(String name) {
-        this.userRole = name;
+    public Role(String userRole) {
+        this.userRole = userRole;
     }
 
     public Long getId() {
@@ -39,8 +40,8 @@ public class Role implements GrantedAuthority {
         return userRole;
     }
 
-    public void setName(String name) {
-        this.userRole = name;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public Set<User> getUsers() {
@@ -58,8 +59,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "userRole='" + userRole + '\'' +
-                '}';
+        return  userRole;
     }
 }

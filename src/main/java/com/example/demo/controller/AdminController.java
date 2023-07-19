@@ -56,29 +56,30 @@ public class AdminController {
     }
 
     @PostMapping("/new_procces")
-    public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-//        userValid.validate(user, bindingResult);
-//        if (bindingResult.hasErrors())
-//            return "/admin/new";
-        getUserRoles(user);
-        usersService.add(user);
-        return "redirect:/admin";
-    }
+        public String createUser(@ModelAttribute("User") @Valid User user, BindingResult bindingResult,
+                @RequestParam(value = "checkedRoles") String[] selectResult) {
+        userValid.validate(user, bindingResult);
+        if (bindingResult.hasErrors())
+            return "/admin/new";
+            for (String s : selectResult) {
+                user.addRole(roleService.getRole("ROLE_" + s));
+            }
+            usersService.add(user);
+            return "redirect:/admin";
+        }
 
-    //    @GetMapping("/{id}/edit")
-//    public String edit(@PathVariable("id") Long id, ModelMap modelMap) {
-//        modelMap.addAttribute(usersService.show(id));
-//        return "/admin/update";
-//    }
 
 
     @PutMapping("/{id}/edit")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, ModelMap model) {
-//        userValid.validate(user, bindingResult);
-//        if (bindingResult.hasErrors())
-//            return "/admin/users";
+    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, ModelMap model,
+                         @RequestParam(value = "checkedRoles") String[] selectResult) {
+        userValid.validate(user, bindingResult);
+        if (bindingResult.hasErrors())
+            return "/admin/users";
+        for (String s : selectResult) {
+            user.addRole(roleService.getRole("ROLE_" + s));
+        }
         model.addAttribute("roles", roleService.listRole());
-        getUserRoles(user);
         usersService.update(user);
         return "redirect:/admin";
     }
@@ -89,9 +90,4 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    private void getUserRoles(User user) {
-        user.setRoles(user.getRoles().stream()
-                .map(role -> roleService.getRole(role.getUserRole()))
-                .collect(Collectors.toSet()));
-    }
 }

@@ -48,8 +48,7 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
 
-    public User(Long id, String username, String password, Set<Role> roles, String userLastName) {
-        this.id = id;
+    public User( String username, String password, Set<Role> roles, String userLastName) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -132,6 +131,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
 

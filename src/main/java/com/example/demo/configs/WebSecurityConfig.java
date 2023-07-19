@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,14 +26,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Autowired
+
     private SuccessUserHandler successUserHandler;
-    @Autowired
+
     private UsersService usersService;
 
     @Autowired
-    public WebSecurityConfig(@Lazy UsersService usersService) {
+    public WebSecurityConfig(@Lazy UsersService usersService, SuccessUserHandler successUserHandler) {
+        this.successUserHandler = successUserHandler;
         this.usersService = usersService;
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
