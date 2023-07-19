@@ -33,11 +33,6 @@ public class UserController {
         return "/user/editSolo";
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "/user/login";
-    }
-
 
 }
 
