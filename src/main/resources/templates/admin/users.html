@@ -15,7 +15,8 @@
         <p class="navbar-brand text-white">
             <b><span class="align-middle" th:text="${user.userName}"></span></b>
             <span class="align-middle">with roles:</span>
-            <span class="align-middle" th:text="${user.roles}"></span>
+            <tr th:each="role : ${role}">
+                <span class="align-middle" th:text="${role.userRole + ' '}"></span>
         </p>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-dark text-secondary">Logout</button>
@@ -27,9 +28,9 @@
 
         <div class="p-0 col-2">
             <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" href="/admin" sec:authorize="hasAuthority('ADMIN')" role="tab"
+                <a class="nav-link active" href="/admin" sec:authorize="hasRole('ADMIN')" role="tab"
                    aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                <a class="nav-link" href="/user" sec:authorize="(hasAnyAuthority('ADMIN', 'USER'))"
+                <a class="nav-link" href="/user" sec:authorize="hasRole('USER')"
                    role="tab"
                    aria-controls="v-pills-profile" aria-selected="false">User</a>
             </div>
@@ -66,7 +67,11 @@
                                         <td th:text="${user.id}"></td>
                                         <td th:text="${user.username}"></td>
                                         <td th:text="${user.userLastName}"></td>
-                                        <td th:text="${user.roles}">roles</td>
+                                        <td>
+                                            <th:block th:each="role : ${user.getRoles()}"
+                                                      th:text="${role.userRole} + ' '">
+                                            </th:block>
+                                        </td>
                                         <td>
                                             <a type="button" class="btn btn-info btn-lg text-white " th:style="white"
                                                data-bs-toggle="modal"
@@ -110,8 +115,8 @@
                                                             <br>
                                                             <label for="roles"><b>Role</b></label>
                                                             <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>
-                                                                <option th:each="role: ${roles}" th:value="${role.userRole}" th:selected="${user.roles.contains(role)}">
-                                                                    <th:block th:text="${role.userRole}">
+                                                                <option th:each="role: ${roles}" th:value="${role.userRole}" >
+                                                                    <th:block th:text="${role.getUserRole()}">
                                                                     </th:block>
                                                                 </option>
                                                             </select>
@@ -161,7 +166,7 @@
                                                             />
                                                             <br>
                                                             <th:block th:each="role : ${user.getRoles()}"
-                                                                      th:text="${role.getName()}">
+                                                                      th:text="${role.getUserRole()}">
                                                             </th:block>
 
                                                             <br><br>

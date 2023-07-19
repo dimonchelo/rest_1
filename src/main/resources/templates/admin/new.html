@@ -12,12 +12,11 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <p class="navbar-brand text-white">
-            <b><span class="align-middle" th:text="${messagesolo.username}"></span></b>
+            <b><span class="align-middle" th:text="${user.userName}"></span></b>
             <span class="align-middle">with roles:</span>
             <tr th:each="role : ${role}">
-                <span class="align-middle" th:text="${role.getName()}"></span>
+                <span class="align-middle" th:text="${role.userRole + ' '}"></span>
         </p>
-        </tr>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-dark text-secondary">Logout</button>
         </form>
@@ -67,6 +66,13 @@
                                 <input type="password" th:field="*{password}" id="password"/>
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
                                 <br>
+                                <label for="roles"><b>Role</b></label>
+                                <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>
+                                    <option th:each="role: ${roles}" th:value="${role.userRole}" th:selected="${user.roles.contains(role)}" >
+                                        <th:block th:text="${role.userRole}">
+                                        </th:block>
+                                    </option>
+                                </select>
 <!--                                <label for="roles"><b>Role</b></label>-->
 <!--                                <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>-->
 <!--                                    <option th:each="role: ${roles}" th:value="${role.name}" th:selected="${user.roles.contains(role)}">-->

@@ -13,7 +13,7 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "role", unique = true)
+    @Column(name = "role")
     private String userRole;
     @Transient
     @ManyToMany(mappedBy = "roles")
@@ -35,7 +35,7 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getName() {
+    public String getUserRole() {
         return userRole;
     }
 

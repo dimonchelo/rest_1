@@ -19,6 +19,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,6 +39,8 @@ public class AdminController {
     @GetMapping()
     public String allUsers(Principal principal, ModelMap model) {
         User user = usersService.findByUsername(principal.getName());
+        Set<Role> role = user.getRoles();
+        model.addAttribute("role", role);
         model.addAttribute("users", usersService.listUser());
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.listRole());
@@ -88,7 +91,7 @@ public class AdminController {
 
     private void getUserRoles(User user) {
         user.setRoles(user.getRoles().stream()
-                .map(role -> roleService.getRole(role.getName()))
+                .map(role -> roleService.getRole(role.getUserRole()))
                 .collect(Collectors.toSet()));
     }
 }
