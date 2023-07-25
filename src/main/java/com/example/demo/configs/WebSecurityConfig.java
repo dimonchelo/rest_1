@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/user/login", "/user/error", "/user/process_login").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/new").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .formLogin(
                         form -> form

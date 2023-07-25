@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsersService implements UserDetailsService {
@@ -32,6 +33,12 @@ public class UsersService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public User show(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 
 

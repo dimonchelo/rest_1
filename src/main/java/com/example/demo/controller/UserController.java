@@ -32,6 +32,13 @@ public class UserController {
         model.addAttribute("roles", role);
         return "/user/editSolo";
     }
+    @GetMapping("/rest")
+    public String userPage(Principal principal, ModelMap model) {
+        User user = usersService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "/rest/userRest";
+    }
+
 
 
 }
