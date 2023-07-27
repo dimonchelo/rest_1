@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                 ).logout(
                         logout -> logout
                                 .logoutUrl("/logout").permitAll()
-                                .logoutSuccessUrl("/login")
+                                .logoutSuccessUrl("/user/login")
                 );
         return http.build();
     }

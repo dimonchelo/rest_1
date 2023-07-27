@@ -43,12 +43,12 @@ public class AdminController {
         return "/admin/users";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/rest/new")
     public String newUser(Principal principal, Model model) {
         User user = usersService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.listRole());
-        return "/admin/new";
+        return "/rest/newRest";
     }
 
     @PostMapping("/new_procces")
@@ -83,6 +83,12 @@ public class AdminController {
     public String delete(@ModelAttribute("user") User user) {
         usersService.delete(user);
         return "redirect:/admin";
+    }
+    @GetMapping("/rest")
+    public String userPage(Principal principal, ModelMap model) {
+        User user = usersService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "/rest/adminRest";
     }
 
 }
