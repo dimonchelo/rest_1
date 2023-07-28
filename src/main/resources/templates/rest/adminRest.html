@@ -43,15 +43,23 @@
                 <div class="pt-2 tab-content">
                     <div class="tab-pane fade show active" id="description">
                         <div class="card">
-                            <ul class="nav nav-tabs">
-                                <a class="nav-link active" data-toggle="tab">Users Table</a>
-                                <a class="nav-link" data-toggle="tab" th:href="@{/admin/rest/new}">New User</a>
-                            </ul>
-                            <div class="card-header">
-                                <div class="m-1">
-                                    <h4>All users</h4>
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-users" type="button" role="tab" aria-controls="nav-users"
+                                            aria-selected="true">Users table
+                                    </button>
+                                    <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#newUser"
+                                            type="button" role="tab" aria-controls="newUser" aria-selected="false">New User
+                                    </button>
                                 </div>
-                            </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-users" role="tabpanel"
+                                 aria-labelledby="nav-users-tab">
+                                <div class="p-2">
+                                    <h5>All users</h5>
+                                </div>
                             <div class="p-3 bg-white border border-top-0" >
                                 <table class="usersTable table table-striped bg-white">
                                     <thead>
@@ -208,6 +216,54 @@
                                     </tbody>
                                 </table>
                             </div>
+                                </div>
+
+                            <div class="tab-pane fade px-4" id="newUser" role="tabpanel" aria-labelledby="nav-newUser-tab">
+                                <div class="p-2">
+                                    <h5>Add new user</h5>
+                                </div>
+                                    <div class="col-md bg-white border">
+                                        <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4" id="addUserForm">
+
+                                            <label for="usernameAdd">Username</label>
+                                            <input type="text" class="form-control"
+                                                   id="usernameAdd"
+                                                   name="firstName"/>
+                                            <br>
+                                            <label for="lastNameAdd" class="col-form-label">Last
+                                                name</label>
+                                            <input type="text" class="form-control"
+                                                   id="lastNameAdd"
+                                                   name="lastName"/>
+                                            <br>
+                                            <label for="passwordAdd"
+                                                   class="col-form-label">Password</label>
+                                            <input type="password" class="form-control"
+                                                   id="passwordAdd"
+                                                   name="password"
+                                            />
+                                            <br>
+                                            <div class="form-group m-3" readonly="readonly">
+                                                <label for="rolesAdd" class="com-form-label">Role</label>
+                                                <select multiple id="rolesAdd" size="2" class="form-control"
+                                                        style="max-height: 100px">
+                                                    <option value="ROLE_USER">USER</option>
+                                                    <option value="ROLE_ADMIN">ADMIN</option>
+                                                </select>
+                                            </div>
+                                            <br>
+
+                                            <button   th:type="submit" class="btn btn-success btn-lg" value="Add new user"
+                                                      id="addUser">Add new
+                                                user
+                                            </button>
+
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -222,10 +278,10 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script>
     async function getUsers() {
-        let temp = '';
-        const table = document.getElementById('tableUsers');
+        let temp = ''
+        const table = document.getElementById('tableUsers')
         const res = await fetch(`api/admin/all`)
-        const users = await res.json();
+        const users = await res.json()
         users.forEach(user => {
                     temp += `
                 <tr>
@@ -245,80 +301,72 @@
                     Delete
                 </button>
             </td>`
-
-               ;
-
+            $(async function () {
+                await showUpdateModal()
+                await showDeleteModal()
+                await addButton()
+            })
                 table.innerHTML = temp;
             })}
-
-    $(async function () {
-        await getUsers();
-        await listenUpdateModal()
-        await listenDeleteModal()
-    })
-
 </script>
 <script>
-    async function listenUpdateModal() {
+    $(async function () {
+        await showUpdateModal()
+        await getUsers()
+    })
+</script>
+<script>
+</script>
+<script>
+    async function showUpdateModal() {
         const updateModal = document.getElementById('edit-modal')
         updateModal.addEventListener('show.bs.modal', async function (event) {
             const button = event.relatedTarget         // Button that triggered the modal
             const id = button.getAttribute('data-bs-updateUserId'); //Extract info from data-bs-* attributes
-            await fillUpdateModal(id)
+            await UpdateModal(id)
         })
-    }
-
-</script>
-<script defer>
-    async function fillUpdateModal(id) {
-        let user
-        try {
-            const res = await fetch(`api/admin/${id}`)
-            user = await res.json()
-        } catch (error) {
-            console.log(error.message)
-        }
-        document.getElementById('idEdit').setAttribute("value", user.id)
-        document.getElementById('usernameEdit').setAttribute("value", user.username)
-        document.getElementById('lastNameEdit').setAttribute("value", user.userLastName)
-        document.getElementById('passwordEdit')
-
     }
 </script>
 <script>
-    $("#editButton").on('click', async () => {
-        console.log("hello")
-        let roleList = [
-            {id: 2, role: "ROLE_USER"},
-            {id: 1, role: "ROLE_ADMIN"}
-
-        ]
-        let checkedRoles = () => {
-            let array = []
-            let options = document.querySelector('#roles').options
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].selected) {
-                    array.push(roleList[i])
+    async function UpdateModal(id) {
+        let user
+            const res = await fetch(`api/admin/${id}`)
+            user = await res.json()
+        document.getElementById('idEdit').setAttribute("value", user.id)
+        document.getElementById('usernameEdit').setAttribute("value", user.username)
+        document.getElementById('lastNameEdit').setAttribute("value", user.userLastName)
+        await editButton()
+    }
+</script>
+<script>
+    async function editButton() {
+        $("#editButton").on('click', async () => {
+            let roleList = [
+                {id: 2, role: "ROLE_USER"},
+                {id: 1, role: "ROLE_ADMIN"}
+            ]
+            let checkedRoles = () => {
+                let array = []
+                let options = document.querySelector('#roles').options
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].selected) {
+                        array.push(roleList[i])
+                    }
                 }
+                return array;
             }
-            return array;
-        }
-
-        let userId = $("#idEdit").val()
-        let username = $("#usernameEdit").val()
-        let password = $("#passwordEdit").val()
-        let userLastName = $("#lastNameEdit").val()
-        let user = {
-            id: userId,
-            username: username,
-            password: password,
-            userLastName: userLastName,
-            roles: checkedRoles(),
-        }
-        console.log(JSON.stringify(user))
-        try {
+            let userId = $("#idEdit").val()
+            let username = $("#usernameEdit").val()
+            let password = $("#passwordEdit").val()
+            let userLastName = $("#lastNameEdit").val()
+            let user = {
+                id: userId,
+                username: username,
+                password: password,
+                userLastName: userLastName,
+                roles: checkedRoles(),
+            }
             await fetch("/admin/api/admin/update", {
-
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -327,45 +375,31 @@
                 },
                 body: JSON.stringify(user)
             })
+        })
+    }
 
-        } catch (error) {
-            console.log(error.message)
-        }
-
-    })
-    $(async function () {
-        await getUsers();
-        await listenUpdateModal()
-        await listenDeleteModal()
-    })
 </script>
 
 <script>
-    async function listenDeleteModal() {
+    async function showDeleteModal() {
         const updateModal = document.getElementById('delete-modal')
         updateModal.addEventListener('show.bs.modal', async function (event) {
             const button = event.relatedTarget         // Button that triggered the modal
             const id = button.getAttribute('data-bs-deleteUserId'); //Extract info from data-bs-* attributes
-            await filldeleteModal(id)
+            await deleteModal(id)
         })
     }
 </script>
 <script>
-    async function filldeleteModal(id) {
+    async function deleteModal(id) {
         let user
-        try {
             const res = await fetch(`api/admin/${id}`)
             user = await res.json()
-        } catch (error) {
-            console.log(error.message)
-        }
         document.getElementById('idDelete').setAttribute("value", user.id)
         document.getElementById('usernameDelete').setAttribute("value", user.username)
         document.getElementById('lastNameDelete').setAttribute("value", user.userLastName)
-        document.getElementById('passwordDelete')
         const elem = document.getElementById('rolesDelete')
         elem.innerHTML = user.roles.map(role => "<option>" + role.userRole.substr(5) + "</option>").join(" ")
-
     }
 </script>
 <script>
@@ -374,9 +408,8 @@
         let roleList = [
             {id: 2, role: "ROLE_USER"},
             {id: 1, role: "ROLE_ADMIN"}
-
         ]
-        let checkedRoles = () => {
+        let selectRoles = () => {
             let array = []
             let options = document.querySelector('#rolesDelete').options
             for (let i = 0; i < options.length; i++) {
@@ -386,7 +419,6 @@
             }
             return array;
         }
-
         let userId = $("#idDelete").val()
         let username = $("#usernameDelete").val()
         let password = $("#passwordDelete").val()
@@ -396,11 +428,9 @@
             username: username,
             password: password,
             userLastName: userLastName,
-            roles: checkedRoles(),
+            roles: selectRoles(),
         }
-        console.log(JSON.stringify(user))
         const id = $("#idDelete").val()
-        try {
             await fetch("/admin/api/admin/${id}", {
 
                 method: "DELETE",
@@ -411,17 +441,61 @@
                 },
                 body: JSON.stringify(user)
             })
-
-        } catch (error) {
-            console.log(error.message)
-        }
-
     })
-    $(async function () {
-        await getUsers();
-        await listenUpdateModal()
-        await listenDeleteModal()
-    })
+</script>
+<script>
+    async function addButton () {
+        $("#addUser").on('click', async () => {
+            let roleList = [
+                {id: 2, role: "ROLE_USER"},
+                {id: 1, role: "ROLE_ADMIN"}
+
+            ]
+            let selectRoles = () => {
+                let array = []
+                let options = document.querySelector('#rolesAdd').options
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].selected) {
+                        array.push(roleList[i])
+                    }
+                }
+                return array;
+            }
+            let userId = $("#idAdd").val()
+            let username = $("#usernameAdd").val()
+            let password = $("#passwordAdd").val()
+            let userLastName = $("#lastNameAdd").val()
+            let user = {
+                id: userId,
+                username: username,
+                password: password,
+                userLastName: userLastName,
+                roles: selectRoles(),
+            }
+            // $("#idAdd").val("")
+            // $("#usernameAdd").val("")
+            // $("#passwordAdd").val("")
+            // $("#lastNameAdd").val("")
+            let a = await fetch("/admin/api/admin/add", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user)
+            })
+
+        })
+    }
+
+
+</script>
+<script>
+
+</script>
+<script>
+    (async () => {
+        await getUsers()
+    })();
 </script>
 </body>
 </html>
