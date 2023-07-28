@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -26,12 +26,6 @@ public class UserRestController {
         return Optional.ofNullable(userService.findByUsername(principal.getName()))
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-//        User user = userService.findByUsername(principal.getName());
-//        if (user == null) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 

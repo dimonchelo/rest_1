@@ -46,182 +46,206 @@
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <button class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-users" type="button" role="tab" aria-controls="nav-users"
+                                            data-bs-target="#nav-users" type="button" role="tab"
+                                            aria-controls="nav-users"
                                             aria-selected="true">Users table
                                     </button>
-                                    <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#newUser"
-                                            type="button" role="tab" aria-controls="newUser" aria-selected="false">New User
+                                    <button class="nav-link" id="new-user-tab" data-bs-toggle="tab"
+                                            data-bs-target="#newUser"
+                                            type="button" role="tab" aria-controls="newUser" aria-selected="false">New
+                                        User
                                     </button>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-users" role="tabpanel"
-                                 aria-labelledby="nav-users-tab">
-                                <div class="p-2">
-                                    <h5>All users</h5>
-                                </div>
-                            <div class="p-3 bg-white border border-top-0" >
-                                <table class="usersTable table table-striped bg-white">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Surname</th>
-                                        <th>Roles</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="tableUsers">
+                                <div class="tab-pane fade show active" id="nav-users" role="tabpanel"
+                                     aria-labelledby="nav-users-tab">
+                                    <div class="p-2">
+                                        <h5>All users</h5>
+                                    </div>
+                                    <div class="p-3 bg-white border border-top-0">
+                                        <table class="usersTable table table-striped bg-white">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Surname</th>
+                                                <th>Roles</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tableUsers">
 
-                                        <div class="modal fade"
-                                             id="edit-modal"
-                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" modal-dialog-centered>
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editModalLabel">Edit user</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body fw-bold">
-                                                        <div style="text-align: center">
-                                                            <div class="row justify-content-center align-items-center">
-                                                                <form class="text-center" id="editFormBody">
-                                                                    <div class="form-group font-weight-bold">
-                                                                        <div class="form-group m-3">
-                                                                            <label for="idEdit"
-                                                                                   class="col-form-label">ID</label>
-                                                                            <input type="text"
-                                                                                   class="form-control" id="idEdit"
-                                                                                   name="id"
-                                                                                   disabled/>
+                                            <div class="modal fade"
+                                                 id="edit-modal"
+                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" modal-dialog-centered>
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body fw-bold">
+                                                            <div style="text-align: center">
+                                                                <div class="row justify-content-center align-items-center">
+                                                                    <form class="text-center" id="editFormBody">
+                                                                        <div class="form-group font-weight-bold">
+                                                                            <div class="form-group m-3">
+                                                                                <label for="idEdit"
+                                                                                       class="col-form-label">ID</label>
+                                                                                <input type="text"
+                                                                                       class="form-control" id="idEdit"
+                                                                                       name="id"
+                                                                                       disabled/>
+                                                                            </div>
+
+                                                                            <div class="form-group m-3">
+                                                                                <label for="usernameEdit">Username</label>
+                                                                                <input type="text" class="form-control"
+                                                                                       id="usernameEdit"
+                                                                                       name="firstName"/>
+                                                                            </div>
+
+                                                                            <div class="form-group m-3">
+                                                                                <label for="lastNameEdit"
+                                                                                       class="col-form-label">Last
+                                                                                    name</label>
+                                                                                <input type="text" class="form-control"
+                                                                                       id="lastNameEdit"
+                                                                                       name="lastName"/>
+                                                                            </div>
+
+
+                                                                            <div class="form-group m-3">
+                                                                                <label for="passwordEdit"
+                                                                                       class="col-form-label">Password</label>
+                                                                                <input type="password"
+                                                                                       class="form-control"
+                                                                                       id="passwordEdit"
+                                                                                       name="password"
+                                                                                />
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label for="roles"
+                                                                                       class="com-form-label">Role</label>
+                                                                                <select multiple id="roles" size="2"
+                                                                                        class="form-control"
+                                                                                        style="max-height: 100px">
+                                                                                    <option value="ROLE_USER">USER
+                                                                                    </option>
+                                                                                    <option value="ROLE_ADMIN">ADMIN
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-bs-dismiss="modal">Close
+                                                                                </button>
+                                                                                <button class="btn btn-info"
+                                                                                        id="editButton">Edit
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
-
-                                                                        <div class="form-group m-3">
-                                                                            <label for="usernameEdit">Username</label>
-                                                                            <input type="text" class="form-control"
-                                                                                   id="usernameEdit"
-                                                                                   name="firstName"/>
-                                                                        </div>
-
-                                                                        <div class="form-group m-3">
-                                                                            <label for="lastNameEdit" class="col-form-label">Last
-                                                                                name</label>
-                                                                            <input type="text" class="form-control"
-                                                                                   id="lastNameEdit"
-                                                                                   name="lastName"/>
-                                                                        </div>
-
-
-
-                                                                        <div class="form-group m-3">
-                                                                            <label for="passwordEdit"
-                                                                                   class="col-form-label">Password</label>
-                                                                            <input type="password" class="form-control"
-                                                                                   id="passwordEdit"
-                                                                                   name="password"
-                                                                                   />
-                                                                        </div>
-
-                                                                        <div class="form-group" >
-                                                                            <label for="roles" class="com-form-label">Role</label>
-                                                                            <select multiple id="roles" size="2" class="form-control" style="max-height: 100px">
-                                                                                <option value="ROLE_USER">USER</option>
-                                                                                <option value="ROLE_ADMIN">ADMIN</option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">Close
-                                                                            </button>
-                                                                            <button  class="btn btn-info" id="editButton">Edit</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal fade"
-                                             id="delete-modal"
-                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" modal-dialog-centered>
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel">Edit user</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body fw-bold">
-                                                        <div style="text-align: center">
-                                                            <div class="row justify-content-center align-items-center">
-                                                                <form class="text-center" id="deleteFormBody">
-                                                                    <div class="form-group font-weight-bold">
-                                                                        <div class="form-group m-3">
-                                                                            <label for="idDelete"
-                                                                                   class="col-form-label">ID</label>
-                                                                            <input type="text"
-                                                                                   class="form-control" id="idDelete"
-                                                                                   name="id"
-                                                                                   disabled/>
+                                            <div class="modal fade"
+                                                 id="delete-modal"
+                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" modal-dialog-centered>
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel">Edit user</h5>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body fw-bold">
+                                                            <div style="text-align: center">
+                                                                <div class="row justify-content-center align-items-center">
+                                                                    <form class="text-center" id="deleteFormBody">
+                                                                        <div class="form-group font-weight-bold">
+                                                                            <div class="form-group m-3">
+                                                                                <label for="idDelete"
+                                                                                       class="col-form-label">ID</label>
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       id="idDelete"
+                                                                                       name="id"
+                                                                                       disabled/>
+                                                                            </div>
+
+                                                                            <div class="form-group m-3">
+                                                                                <label for="usernameDelete">Username</label>
+                                                                                <input type="text" class="form-control"
+                                                                                       id="usernameDelete"
+                                                                                       name="firstName"
+                                                                                       disabled/>
+                                                                            </div>
+
+                                                                            <div class="form-group m-3">
+                                                                                <label for="lastNameEdit"
+                                                                                       class="col-form-label">Last
+                                                                                    name</label>
+                                                                                <input type="text" class="form-control"
+                                                                                       id="lastNameDelete"
+                                                                                       name="lastName"
+                                                                                       disabled/>
+                                                                            </div>
+
+
+                                                                            <div class="form-group">
+                                                                                <label for="roles"
+                                                                                       class="com-form-label">Role</label>
+                                                                                <select multiple id="rolesDelete"
+                                                                                        size="2" class="form-control"
+                                                                                        style="max-height: 100px">
+                                                                                    <option value="ROLE_USER">USER
+                                                                                    </option>
+                                                                                    <option value="ROLE_ADMIN">ADMIN
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-bs-dismiss="modal">Close
+                                                                                </button>
+                                                                                <button class="btn btn-danger"
+                                                                                        id="DeleteButton">Delete
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
-
-                                                                        <div class="form-group m-3">
-                                                                            <label for="usernameDelete">Username</label>
-                                                                            <input type="text" class="form-control"
-                                                                                   id="usernameDelete"
-                                                                                   name="firstName"
-                                                                                   disabled/>
-                                                                        </div>
-
-                                                                        <div class="form-group m-3">
-                                                                            <label for="lastNameEdit" class="col-form-label">Last
-                                                                                name</label>
-                                                                            <input type="text" class="form-control"
-                                                                                   id="lastNameDelete"
-                                                                                   name="lastName"
-                                                                                   disabled/>
-                                                                        </div>
-
-
-
-                                                                        <div class="form-group" >
-                                                                            <label for="roles" class="com-form-label">Role</label>
-                                                                            <select multiple id="rolesDelete" size="2" class="form-control" style="max-height: 100px">
-                                                                                <option value="ROLE_USER">USER</option>
-                                                                                <option value="ROLE_ADMIN">ADMIN</option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">Close
-                                                                            </button>
-                                                                            <button  class="btn btn-danger" id="DeleteButton">Delete</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </tr>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </tr>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
-                            <div class="tab-pane fade px-4" id="newUser" role="tabpanel" aria-labelledby="nav-newUser-tab">
-                                <div class="p-2">
-                                    <h5>Add new user</h5>
-                                </div>
+                                <div class="tab-pane fade px-4" id="newUser" role="tabpanel"
+                                     aria-labelledby="nav-newUser-tab">
+                                    <div class="p-2">
+                                        <h5>Add new user</h5>
+                                    </div>
                                     <div class="col-md bg-white border">
                                         <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4" id="addUserForm">
 
@@ -253,8 +277,8 @@
                                             </div>
                                             <br>
 
-                                            <button   th:type="submit" class="btn btn-success btn-lg" value="Add new user"
-                                                      id="addUser">Add new
+                                            <button th:type="submit" class="btn btn-success btn-lg" value="Add new user"
+                                                    id="addUser">Add new
                                                 user
                                             </button>
 
@@ -274,46 +298,44 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
 <script>
     async function getUsers() {
         let temp = ''
         const table = document.getElementById('tableUsers')
-        const res = await fetch(`api/admin/all`)
+        const res = await fetch(`rest/all`)
+        if (!res.ok) {
+            console.error(res.statusText)
+        }
         const users = await res.json()
         users.forEach(user => {
-                    temp += `
+            temp += `
                 <tr>
                     <td>${user.id}</td>
                     <td>${user.username}</td>
                     <td>${user.userLastName}</td>
                     <td>${user.roles.map(e => " " + e.userRole.substr(5))}</td>
-                                            <td>
-                <button type="button" class="btn btn-info" data-bs-toggle="modal" id = "edit-button"
-                        data-bs-target="#edit-modal" data-bs-updateUserId='${user.id}'>
-                    Edit
-                </button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal"  id = "delete-button"
-                        data-bs-target="#delete-modal" data-bs-deleteUserId='${user.id}'>
-                    Delete
-                </button>
-            </td>`
-            $(async function () {
-                await showUpdateModal()
-                await showDeleteModal()
-                await addButton()
-            })
-                table.innerHTML = temp;
-            })}
+                    <td>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" id = "edit-button"
+                            data-bs-target="#edit-modal" data-bs-updateUserId='${user.id}'>
+                                Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"  id = "delete-button"
+                            data-bs-target="#delete-modal" data-bs-deleteUserId='${user.id}'>
+                                Delete
+                        </button>
+                   </td>`
+            table.innerHTML = temp;
+        })
+    }
 </script>
 <script>
-    $(async function () {
-        await showUpdateModal()
-        await getUsers()
-    })
 </script>
 <script>
 </script>
@@ -321,8 +343,8 @@
     async function showUpdateModal() {
         const updateModal = document.getElementById('edit-modal')
         updateModal.addEventListener('show.bs.modal', async function (event) {
-            const button = event.relatedTarget         // Button that triggered the modal
-            const id = button.getAttribute('data-bs-updateUserId'); //Extract info from data-bs-* attributes
+            const button = event.relatedTarget
+            const id = button.getAttribute('data-bs-updateUserId');
             await UpdateModal(id)
         })
     }
@@ -330,8 +352,8 @@
 <script>
     async function UpdateModal(id) {
         let user
-            const res = await fetch(`api/admin/${id}`)
-            user = await res.json()
+        const res = await fetch(`rest/${id}`)
+        user = await res.json()
         document.getElementById('idEdit').setAttribute("value", user.id)
         document.getElementById('usernameEdit').setAttribute("value", user.username)
         document.getElementById('lastNameEdit').setAttribute("value", user.userLastName)
@@ -366,7 +388,7 @@
                 userLastName: userLastName,
                 roles: checkedRoles(),
             }
-            await fetch("/admin/api/admin/update", {
+            const a = await fetch("/admin/rest/update", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -375,6 +397,9 @@
                 },
                 body: JSON.stringify(user)
             })
+            if (!a.ok) {
+                console.error(a.statusText)
+            }
         })
     }
 
@@ -384,8 +409,8 @@
     async function showDeleteModal() {
         const updateModal = document.getElementById('delete-modal')
         updateModal.addEventListener('show.bs.modal', async function (event) {
-            const button = event.relatedTarget         // Button that triggered the modal
-            const id = button.getAttribute('data-bs-deleteUserId'); //Extract info from data-bs-* attributes
+            const button = event.relatedTarget
+            const id = button.getAttribute('data-bs-deleteUserId');
             await deleteModal(id)
         })
     }
@@ -393,8 +418,8 @@
 <script>
     async function deleteModal(id) {
         let user
-            const res = await fetch(`api/admin/${id}`)
-            user = await res.json()
+        const res = await fetch(`rest/${id}`)
+        user = await res.json()
         document.getElementById('idDelete').setAttribute("value", user.id)
         document.getElementById('usernameDelete').setAttribute("value", user.username)
         document.getElementById('lastNameDelete').setAttribute("value", user.userLastName)
@@ -431,20 +456,23 @@
             roles: selectRoles(),
         }
         const id = $("#idDelete").val()
-            await fetch("/admin/api/admin/${id}", {
+        const a = await fetch("/admin/rest/${id}", {
 
-                method: "DELETE",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Referer': null
-                },
-                body: JSON.stringify(user)
-            })
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Referer': null
+            },
+            body: JSON.stringify(user)
+        })
+        if (!a.ok) {
+            console.error(a.statusText)
+        }
     })
 </script>
 <script>
-    async function addButton () {
+    async function addButton() {
         $("#addUser").on('click', async () => {
             let roleList = [
                 {id: 2, role: "ROLE_USER"},
@@ -472,18 +500,16 @@
                 userLastName: userLastName,
                 roles: selectRoles(),
             }
-            // $("#idAdd").val("")
-            // $("#usernameAdd").val("")
-            // $("#passwordAdd").val("")
-            // $("#lastNameAdd").val("")
-            let a = await fetch("/admin/api/admin/add", {
+            let a = await fetch("/admin/rest/add", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user)
             })
-
+            if (!a.ok) {
+                console.error(a.statusText)
+            }
         })
     }
 
@@ -493,9 +519,12 @@
 
 </script>
 <script>
-    (async () => {
-        await getUsers()
-    })();
+    $(async function () {
+        await showUpdateModal()
+        await showDeleteModal()
+        await addButton()
+        setTimeout(getUsers, 200)
+    })
 </script>
 </body>
 </html>
