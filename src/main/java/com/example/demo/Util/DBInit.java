@@ -2,7 +2,7 @@ package com.example.demo.Util;
 
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
-import com.example.demo.service.RoleService;
+import com.example.demo.service.RoleServiceImpl;
 import com.example.demo.service.UsersService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ import java.util.Set;
 @Component
 public class DBInit {
     private final UsersService userService;
-    private final RoleService roleService;
+    private final RoleServiceImpl roleServiceImpl;
 
     @Autowired
-    public DBInit(UsersService userService, RoleService roleService) {
+    public DBInit(UsersService userService, RoleServiceImpl roleServiceImpl) {
         this.userService = userService;
-        this.roleService = roleService;
+        this.roleServiceImpl = roleServiceImpl;
     }
 
     @PostConstruct
@@ -29,8 +29,8 @@ public class DBInit {
         Set<Role> adminSet = new HashSet<>();
         Set<Role> userSet = new HashSet<>();
 
-        roleService.addRole(roleAdmin);
-        roleService.addRole(roleUser);
+        roleServiceImpl.addRole(roleAdmin);
+        roleServiceImpl.addRole(roleUser);
 
         adminSet.add(roleAdmin);
         adminSet.add(roleUser);

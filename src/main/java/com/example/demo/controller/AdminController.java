@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+
+
 import com.example.demo.Util.UserValid;
 import com.example.demo.model.User;
-import com.example.demo.service.RoleService;
+import com.example.demo.service.RoleServiceImpl;
 import com.example.demo.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +21,13 @@ public class AdminController {
     private UsersService usersService;
     private UserValid userValid;
 
-    private RoleService roleService;
+    private RoleServiceImpl roleServiceImpl;
 
     @Autowired
-    public AdminController(UsersService usersService, UserValid userValid, RoleService roleService) {
+    public AdminController(UsersService usersService, UserValid userValid, RoleServiceImpl roleServiceImpl) {
         this.usersService = usersService;
         this.userValid = userValid;
-        this.roleService = roleService;
+        this.roleServiceImpl = roleServiceImpl;
     }
 
     @GetMapping("/rest")

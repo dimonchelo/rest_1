@@ -1,7 +1,7 @@
 package com.example.demo.Util;
 
 import com.example.demo.model.User;
-import com.example.demo.service.ValidService;
+import com.example.demo.service.ValidServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,11 +11,11 @@ import org.springframework.validation.Validator;
 public class UserValid implements Validator {
 
 
-    private ValidService validService;
+    private ValidServiceImpl validServiceImpl;
 
     @Autowired
-    public UserValid(ValidService validService) {
-        this.validService = validService;
+    public UserValid(ValidServiceImpl validServiceImpl) {
+        this.validServiceImpl = validServiceImpl;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class UserValid implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (!validService.findByname(user)) {
+        if (!validServiceImpl.findByname(user)) {
             errors.rejectValue("username", "", "пользватель с таким именем существует");
         }
     }

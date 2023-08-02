@@ -4,6 +4,7 @@ import com.example.demo.model.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,10 +36,10 @@ public class UsersService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    @Transactional
-    public User show(Long id) {
+
+    public User show(Long id) throws ChangeSetPersister.NotFoundException {
         Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
+        return user.orElseThrow(ChangeSetPersister.NotFoundException::new);
     }
 
 
