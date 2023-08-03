@@ -40,23 +40,27 @@
         <div class="p-0 col-10 bg-light">
             <div class="tabs p-4">
                 <h1>Admin page</h1>
-                <div class="pt-2 tab-content">
-                    <div class="tab-pane fade show active" id="description">
+
                         <div class="card">
-                            <nav>
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
+                            <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+
+                                    <li class="nav-item">
+                                    <a class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
                                             data-bs-target="#nav-users" type="button" role="tab"
                                             aria-controls="nav-users"
+                                       href="#nav-users"
                                             aria-selected="true">Users table
-                                    </button>
-                                    <button class="nav-link" id="new-user-tab" data-bs-toggle="tab"
+                                    </a>
+                                    </li>
+                                    <li class="nav-item">
+                                    <a class="nav-link" id="new-user-tab" data-bs-toggle="tab"
                                             data-bs-target="#newUser"
                                             type="button" role="tab" aria-controls="newUser" aria-selected="false">New
                                         User
-                                    </button>
-                                </div>
-                            </nav>
+                                    </a>
+                                    </li>
+
+                            </ul>
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-users" role="tabpanel"
                                      aria-labelledby="nav-users-tab">
@@ -148,6 +152,8 @@
                                                                                         data-bs-dismiss="modal">Close
                                                                                 </button>
                                                                                 <button class="btn btn-info"
+                                                                                        type="button"
+                                                                                        data-bs-dismiss="modal"
                                                                                         id="editButton">Edit
                                                                                 </button>
                                                                             </div>
@@ -223,6 +229,8 @@
                                                                                         data-bs-dismiss="modal">Close
                                                                                 </button>
                                                                                 <button class="btn btn-danger"
+                                                                                        type="button"
+                                                                                        data-bs-dismiss="modal"
                                                                                         id="DeleteButton">Delete
                                                                                 </button>
                                                                             </div>
@@ -277,7 +285,7 @@
                                             </div>
                                             <br>
 
-                                            <button th:type="submit" class="btn btn-success btn-lg" value="Add new user"
+                                            <button th:type="button" onclick="getStart()" class="btn btn-success btn-lg" value="Add new user"
                                                     id="addUser">Add new
                                                 user
                                             </button>
@@ -289,8 +297,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+
+
             </div>
         </div>
     </div>
@@ -397,6 +405,7 @@
                 },
                 body: JSON.stringify(user)
             })
+            setTimeout(getUsers, 200)
             if (!a.ok) {
                 console.error(a.statusText)
             }
@@ -466,6 +475,7 @@
             },
             body: JSON.stringify(user)
         })
+        setTimeout(getUsers, 200)
         if (!a.ok) {
             console.error(a.statusText)
         }
@@ -507,6 +517,7 @@
                 },
                 body: JSON.stringify(user)
             })
+            setTimeout(getUsers, 200)
             if (!a.ok) {
                 console.error(a.statusText)
             }
@@ -516,7 +527,9 @@
 
 </script>
 <script>
-
+async function getStart() {
+    $('#nav-tab a[href="#nav-users"]').tab('show')
+}
 </script>
 <script>
     $(async function () {
